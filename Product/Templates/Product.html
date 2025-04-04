@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <title>فرم محصول</title>
+  </head>
+  <body>
+    <h1>ایجاد محصول جدید</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div>
+        <label for="id_image">تصویر محصول:</label>
+        {{ form.image }}
+      </div>
+      <div>
+        <label for="id_name">نام محصول:</label>
+        {{ form.name }}
+      </div>
+      <div>
+        <label for="id_stock">موجودی:</label>
+        {{ form.stock }}
+      </div>
+      <div>
+        <label for="id_unit">واحد:</label>
+        {{ form.unit }}
+      </div>
+      <div>
+        <label for="id_category">دسته‌بندی:</label>
+        {{ form.category }}
+      </div>
+      <div>
+        <label for="id_brand">برند:</label>
+        {{ form.brand }}
+      </div>
+      <div>
+        <label for="id_purchase_price">قیمت خرید:</label>
+        {{ form.purchase_price }}
+      </div>
+      <div>
+        <label for="id_cover_price">قیمت روی جلد:</label>
+        {{ form.cover_price }}
+      </div>
+      <div>
+        <label for="id_sale_price">قیمت فروش:</label>
+        {{ form.sale_price }}
+      </div>
+      <div>
+        <label for="id_manufacture_date">تاریخ تولید:</label>
+        {{ form.manufacture_date }}
+      </div>
+      <div>
+        <label for="id_expiration_date">تاریخ انقضا:</label>
+        {{ form.expiration_date }}
+      </div>
+      <div>
+        <label for="id_sale_status">وضعیت فروش:</label>
+        {{ form.sale_status }}
+      </div>
+      <div>
+        <label for="id_marketer_profit">سود بازاریاب:</label>
+        {{ form.marketer_profit }}
+      </div>
+      <div>
+        <label for="id_turnover">گردش کالا:</label>
+        {{ form.turnover }}
+      </div>
+      <div>
+        <label for="id_operations">عملیات:</label>
+        {{ form.operations }}
+      </div>
+      <div>
+        <label for="id_description">توضیحات:</label>
+        {{ form.description }}
+      </div>
+      <button type="submit">ذخیره</button>
+    </form>
+  </body>
+</html>

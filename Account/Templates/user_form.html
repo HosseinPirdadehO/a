@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <title>فرم کاربر</title>
+  </head>
+  <style>
+    body {
+      direction: rtl;
+      text-align: right;
+    }
+    table {
+      width: 100%;
+    }
+    th,
+    td {
+      padding: 8px;
+      text-align: right;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    a {
+      display: inline-block;
+      margin-top: 10px;
+    }
+  </style>
+  <body>
+    <h2>فرم کاربر</h2>
+    {% if form.errors %}
+    <div role="alert">
+      <ul>
+        {% for field in form %} {% for error in field.errors %}
+        <li>{{ field.label }}: {{ error }}</li>
+        {% endfor %} {% endfor %} {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <label for="first_name">نام:</label>
+      {{ form.first_name }}
+      <br />
+      <hr />
+      <label for="last_name">نام خانوادگی:</label>
+      {{ form.last_name }}
+      <br />
+      <hr />
+      <label for="role">نقش:</label>
+      {{ form.role }}
+      <br />
+      <hr />
+      <label for="phone_number">شماره تماس:</label>
+      {{ form.phone_number }}
+      <br />
+      <hr />
+      <label for="national_id">کد ملی:</label>
+      {{ form.national_id }}
+      <br />
+      <hr />
+      <label for="province">استان:</label>
+      {{ form.province }}
+      <br />
+      <hr />
+      <label for="city">شهر:</label>
+      {{ form.city }}
+      <br />
+      <hr />
+      <label for="wallet_status">وضعیت کیف پول:</label>
+      {{ form.wallet_status }}
+      <br />
+      <hr />
+      <label for="messenger">پیام رسان:</label>
+      {{ form.messenger }}
+      <br />
+      <hr />
+      <label for="operations">عملیات:</label>
+      {{ form.operations }}
+      <br />
+      <hr />
+      <label for="status">وضعیت:</label>
+      {{ form.status }}
+      <br />
+      <hr />
+      <button type="submit">ذخیره</button>
+    </form>
+  </body>
+</html>

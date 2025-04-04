@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <title>فرم اطلاع‌رسانی محتوا</title>
+  </head>
+  <body>
+    <h1>فرم اطلاع‌رسانی محتوا</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div>
+        <label for="id_image">تصویر اطلاع‌رسانی:</label>
+        {{ form.image }}
+        <p>{{ form.image.help_text }}</p>
+      </div>
+      <div>
+        <label for="id_content">متن اطلاع‌رسانی:</label>
+        {{ form.content }}
+      </div>
+      <div>
+        <label for="id_province">استان:</label>
+        {{ form.province }}
+      </div>
+      <div>
+        <label for="id_city">شهر:</label>
+        {{ form.city }}
+      </div>
+      <div>
+        <label for="id_individual"> فرد :</label>
+        {{ form.individual }}
+      </div>
+      <div>
+        <label for="id_user_group">گروه کاربران هدف:</label>
+        {{ form.user_group }}
+      </div>
+      <div>
+        <label for="id_action">اقدام مرتبط:</label>
+        {{ form.action }}
+      </div>
+      <button type="submit">ارسال</button>
+    </form>
+  </body>
+</html>

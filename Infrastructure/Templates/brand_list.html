@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>لیست برندها</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>لیست برندها</h1>
+      <a href="{% url 'create_brand' %}" class="btn btn-success"
+        >افزودن برند جدید</a
+      >
+      <table>
+        <thead>
+          <tr>
+            <th>نام</th>
+            <th>توضیحات</th>
+            <th>تصویر</th>
+            <th>عملیات</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for brand in brands %}
+          <tr>
+            <td>{{ brand.name }}</td>
+            <td>{{ brand.description }}</td>
+            <td>
+              <img
+                src="{{ brand.image.url }}"
+                alt="{{ brand.name }}"
+                width="100"
+              />
+            </td>
+            <td>
+              <a href="{% url 'edit_brand' brand.id %}">ویرایش</a> |
+              <a href="{% url 'delete_brand' brand.id %}">حذف</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="4">هیچ برندی یافت نشد.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

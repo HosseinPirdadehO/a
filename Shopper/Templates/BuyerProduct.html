@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <title>فرم محصول</title>
+  </head>
+  <body>
+    <h1>فرم محصول</h1>
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">ذخیره</button>
+    </form>
+    {% if message %}
+    <p>{{ message }}</p>
+    {% endif %}
+    <a href="/">بازگشت</a>
+  </body>
+</html>

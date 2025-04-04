@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>برند</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>افزودن/ویرایش برند</h1>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>{{ form.name.label_tag }} {{ form.name }}</div>
+        <div>{{ form.description.label_tag }} {{ form.description }}</div>
+        <div>{{ form.image.label_tag }} {{ form.image }}</div>
+        <button type="submit">ذخیره</button>
+        <a href="{% url 'brand_list' %}">بازگشت</a>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <title>حساب کاربر</title>
+  </head>
+  <style>
+    body {
+      direction: rtl;
+      text-align: right;
+    }
+    table {
+      width: 100%;
+    }
+    th,
+    td {
+      padding: 8px;
+      text-align: right;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    a {
+      display: inline-block;
+      margin-top: 10px;
+    }
+  </style>
+  <body>
+    <div>
+      <h2>حساب کاربر</h2>
+      {% if messages %}
+      <div role="alert">
+        <ul>
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      <table>
+        <tbody>
+          <tr>
+            <th>نام</th>
+            <td>{{ user.first_name }}</td>
+          </tr>
+          <tr>
+            <th>نام خانوادگی</th>
+            <td>{{ user.last_name }}</td>
+          </tr>
+          <tr>
+            <th>نقش</th>
+            <td>{{ user.get_role_display }}</td>
+          </tr>
+          <tr>
+            <th>شماره تماس</th>
+            <td>{{ user.phone_number }}</td>
+          </tr>
+          <tr>
+            <th>کد ملی</th>
+            <td>{{ user.national_id }}</td>
+          </tr>
+          <tr>
+            <th>استان</th>
+            <td>{{ user.province.name }}</td>
+          </tr>
+          <tr>
+            <th>شهر</th>
+            <td>{{ user.city.name }}</td>
+          </tr>
+          <tr>
+            <th>وضعیت کیف پول</th>
+            <td>{{ user.wallet_status }}</td>
+          </tr>
+          <tr>
+            <th>پیام رسان</th>
+            <td>{{ user.messenger }}</td>
+          </tr>
+          <tr>
+            <th>عملیات</th>
+            <td>{{ user.get_operations_display }}</td>
+          </tr>
+          <tr>
+            <th>وضعیت</th>
+            <td>{{ user.get_status_display }}</td>
+          </tr>
+          <tr>
+            <th>لوکیشن کنونی</th>
+            <td>{{ user.current_location }}</td>
+          </tr>
+          <tr>
+            <th>تاریخ ایجاد</th>
+            <td>{{ user.created_at }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <a href="{% url 'user_edit' user.id %}">ویرایش</a>
+    </div>
+  </body>
+</html>

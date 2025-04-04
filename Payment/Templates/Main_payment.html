@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <title>مالی</title>
+  </head>
+  <body>
+    <h1>مالی</h1>
+    <form method="post">
+      {% csrf_token %}
+      <div>
+        <label for="id_first_name">نام:</label>
+        {{ form.first_name }}
+      </div>
+      <div>
+        <label for="id_last_name">نام خانوادگی:</label>
+        {{ form.last_name }}
+      </div>
+      <div>
+        <label for="id_store_name">نام فروشگاه:</label>
+        {{ form.store_name }}
+      </div>
+      <div>
+        <label for="id_contact_number">شماره تماس:</label>
+        {{ form.contact_number }}
+      </div>
+      <div>
+        <label for="id_national_id">کد ملی:</label>
+        {{ form.national_id }}
+      </div>
+      <div>
+        <label for="id_province">استان:</label>
+        {{ form.province }}
+      </div>
+      <div>
+        <label for="id_city">شهر:</label>
+        {{ form.city }}
+      </div>
+      <div>
+        <label for="id_location">لوکیشن:</label>
+        {{ form.location }}
+      </div>
+      <div>
+        <label for="id_debt">بدهی:</label>
+        {{ form.debt }}
+      </div>
+      <div>
+        <label for="id_financial_limit">محدودیت مالی:</label>
+        {{ form.financial_limit }}
+      </div>
+      <div>
+        <label for="id_history">سابقه:</label>
+        {{ form.history }}
+      </div>
+      <div>
+        <label for="id_notifications">نوتیفیکیشن‌:</label>
+        {{ form.notifications }}
+      </div>
+      <button type="submit">ارسال</button>
+    </form>
+  </body>
+</html>
