@@ -31,7 +31,7 @@ class ModalNotification(models.Model):
     province = models.CharField(max_length=100)  # استان
     city = models.CharField(max_length=100)  # شهر
     individual = models.CharField(
-        max_length=255, null=True, blank=True, help_text="نام فرد مشخص‌شده")  # فرد مورد نظر
+        max_length=255, null=True, blank=True, help_text=" فرد ")  # فرد
     user_group = models.CharField(
         max_length=255, help_text="گروه کاربران هدف")  # گروه کاربران
     # اقدامات مرتبط با اطلاع‌رسانی
@@ -53,7 +53,7 @@ class ContentNotification(models.Model):
     province = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     individual = models.CharField(
-        max_length=255, null=True, blank=True, help_text="نام فرد مشخص‌شده")
+        max_length=255, null=True, blank=True, help_text=" فرد ")
     user_group = models.CharField(
         max_length=255, help_text="گروه کاربران هدف")
     action = models.TextField(null=True, blank=True)
@@ -76,7 +76,7 @@ class AdvertisementNotification(models.Model):
     province = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     individual = models.CharField(
-        max_length=255, null=True, blank=True, help_text="نام فرد مشخص‌شده")
+        max_length=255, null=True, blank=True, help_text=" فرد ")
     user_group = models.CharField(
         max_length=255, help_text="گروه کاربران هدف")
     action = models.TextField(null=True, blank=True)

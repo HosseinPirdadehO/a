@@ -1,4 +1,4 @@
-from .views import InventoryViewSet
+from .views import InventoryViewSet, add_inventory_item
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
 from django.urls import path
@@ -14,4 +14,5 @@ urlpatterns = [
     path('api/', include(router.urls)),  # مسیر APIها
     path('success-page/', views.success_page, name='success_page'),
     path('add-inventory/', views.add_inventory_item, name='add_inventory'),
+
 ]

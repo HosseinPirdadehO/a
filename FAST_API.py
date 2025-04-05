@@ -1,3 +1,7 @@
+from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine, Column, Integer, String, Float
+from fastapi import FastAPI, APIRouter, HTTPException, Depends
 from typing import List
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException
@@ -2461,3 +2465,267 @@ if __name__ == "__main__":
 # GET    /buyer_payment_api/buyer_payments/{id} - دریافت جزئیات پرداخت خریدار
 # PUT    /buyer_payment_api/buyer_payments/{id} - بروزرسانی اطلاعات پرداخت خریدار
 # DELETE /buyer_payment_api/buyer_payments/{id} - حذف پرداخت خریدار
+
+
+# app Order
+# order
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+router = APIRouter()
+
+# Pydantic Models
+
+
+class OrderBase(BaseModel):
+    buyer: str
+    order_date: str  # تاریخ سفارش به صورت رشته
+    order_number: str
+    delivery_date: Optional[str] = None
+    delivery_location: str
+    product_id: str
+    product_name: str
+    quantity: int
+    price: float
+    discount: float = 0.0
+    total_price: float
+    payment_method: str
+    order_method: str
+    description: Optional[str] = None
+    total_amount: float
+    total_discount: float = 0.0
+    shipping_cost: float = 0.0
+    grand_total: float
+    order_code: Optional[str] = None
+
+
+class OrderCreate(OrderBase):
+    pass
+
+
+class Order(OrderBase):
+    id: int
+
+    class Config:
+        from_attributes = True
+
+
+# دیتابیس موقت
+orders_db = []
+
+# عملیات CRUD
+
+
+@router.post("/orders/", response_model=Order)
+async def create_order(order: OrderCreate):
+    try:
+        print("Received order data:", order.dict())
+        new_order = Order(**order.dict(), id=len(orders_db) + 1)
+        orders_db.append(new_order)
+        return new_order
+    except ValidationError as e:
+        print("Validation error:", e.errors())
+        return JSONResponse(status_code=422, content={"detail": e.errors()})
+
+
+@router.get("/orders/", response_model=List[Order])
+async def read_orders(skip: int = 0, limit: int = 10):
+    return orders_db[skip:skip + limit]
+
+
+@router.get("/orders/{order_id}", response_model=Order)
+async def read_order(order_id: int):
+    order = next((o for o in orders_db if o.id == order_id), None)
+    if order is None:
+        raise HTTPException(status_code=404, detail="Order not found")
+    return order
+
+
+@router.put("/orders/{order_id}", response_model=Order)
+async def update_order(order_id: int, updated_order: OrderCreate):
+    order = next((o for o in orders_db if o.id == order_id), None)
+    if order is None:
+        raise HTTPException(status_code=404, detail="Order not found")
+    order_index = orders_db.index(order)
+    orders_db[order_index] = Order(**updated_order.dict(), id=order_id)
+    return orders_db[order_index]
+
+
+@router.delete("/orders/{order_id}", response_model=dict)
+async def delete_order(order_id: int):
+    order = next((o for o in orders_db if o.id == order_id), None)
+    if order is None:
+        raise HTTPException(status_code=404, detail="Order not found")
+    orders_db.remove(order)
+    return {"message": "Order deleted"}
+
+app.include_router(router, prefix="/order_api")
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)
+
+
+# تنظیمات پایگاه داده
+# DATABASE_URL = "postgresql+psycopg2://pirdadeh:pirdadeh@localhost:5432/HP"
+
+
+# engine = create_engine(DATABASE_URL)
+# SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+# Base = declarative_base()
+
+# # مدل دیتابیس با SQLAlchemy
+
+
+# class Order(Base):
+#     __tablename__ = "orders"
+
+#     id = Column(Integer, primary_key=True, index=True)
+#     buyer = Column(String, nullable=False)
+#     order_date = Column(String, nullable=False)
+#     order_number = Column(String, nullable=False)
+#     delivery_date = Column(String, nullable=True)
+#     delivery_location = Column(String, nullable=False)
+#     product_id = Column(String, nullable=False)
+#     product_name = Column(String, nullable=False)
+#     quantity = Column(Integer, nullable=False)
+#     price = Column(Float, nullable=False)
+#     discount = Column(Float, default=0.0)
+#     total_price = Column(Float, nullable=False)
+#     payment_method = Column(String, nullable=False)
+#     order_method = Column(String, nullable=False)
+#     description = Column(String, nullable=True)
+#     total_amount = Column(Float, nullable=False)
+#     total_discount = Column(Float, default=0.0)
+#     shipping_cost = Column(Float, default=0.0)
+#     grand_total = Column(Float, nullable=False)
+#     order_code = Column(String, nullable=True)
+
+
+# # ایجاد جداول دیتابیس
+# Base.metadata.create_all(bind=engine)
+
+# # تنظیمات FastAPI
+# app = FastAPI()
+
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
+
+# router = APIRouter()
+
+# # مدل‌های Pydantic
+
+
+# class OrderBase(BaseModel):
+#     buyer: str
+#     order_date: str  # تاریخ سفارش به صورت رشته
+#     order_number: str
+#     delivery_date: Optional[str] = None
+#     delivery_location: str
+#     product_id: str
+#     product_name: str
+#     quantity: int
+#     price: float
+#     discount: float = 0.0
+#     total_price: float
+#     payment_method: str
+#     order_method: str
+#     description: Optional[str] = None
+#     total_amount: float
+#     total_discount: float = 0.0
+#     shipping_cost: float = 0.0
+#     grand_total: float
+#     order_code: Optional[str] = None
+
+
+# class OrderCreate(OrderBase):
+#     pass
+
+
+# class OrderResponse(OrderBase):
+#     id: int
+
+#     class Config:
+#         orm_mode = True
+
+# # وابستگی دیتابیس
+
+
+# def get_db():
+#     db = SessionLocal()
+#     try:
+#         yield db
+#     finally:
+#         db.close()
+
+# # عملیات CRUD
+
+
+# @router.post("/orders/", response_model=OrderResponse)
+# async def create_order(order: OrderCreate, db: Session = Depends(get_db)):
+#     db_order = Order(**order.dict())
+#     db.add(db_order)
+#     db.commit()
+#     db.refresh(db_order)
+#     return db_order
+
+
+# @router.get("/orders/", response_model=List[OrderResponse])
+# async def read_orders(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+#     orders = db.query(Order).offset(skip).limit(limit).all()
+#     return orders
+
+
+# @router.get("/orders/{order_id}", response_model=OrderResponse)
+# async def read_order(order_id: int, db: Session = Depends(get_db)):
+#     order = db.query(Order).filter(Order.id == order_id).first()
+#     if not order:
+#         raise HTTPException(status_code=404, detail="Order not found")
+#     return order
+
+
+# @router.put("/orders/{order_id}", response_model=OrderResponse)
+# async def update_order(order_id: int, updated_order: OrderCreate, db: Session = Depends(get_db)):
+#     order = db.query(Order).filter(Order.id == order_id).first()
+#     if not order:
+#         raise HTTPException(status_code=404, detail="Order not found")
+#     for key, value in updated_order.dict().items():
+#         setattr(order, key, value)
+#     db.commit()
+#     db.refresh(order)
+#     return order
+
+
+# @router.delete("/orders/{order_id}", response_model=dict)
+# async def delete_order(order_id: int, db: Session = Depends(get_db)):
+#     order = db.query(Order).filter(Order.id == order_id).first()
+#     if not order:
+#         raise HTTPException(status_code=404, detail="Order not found")
+#     db.delete(order)
+#     db.commit()
+#     return {"message": "Order deleted"}
+
+# app.include_router(router, prefix="/order_api")
+
+# if __name__ == "__main__":
+#     import uvicorn
+#     uvicorn.run(app, host="127.0.0.1", port=8000)
+
+# POST   /order_api/orders/     - ایجاد سفارش جدید
+# GET    /order_api/orders/     - دریافت لیست سفارش‌ها
+# GET    /order_api/orders/{id} - دریافت جزئیات یک سفارش
+# PUT    /order_api/orders/{id} - بروزرسانی اطلاعات یک سفارش
+# DELETE /order_api/orders/{id} - حذف یک سفارش

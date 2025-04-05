@@ -31,7 +31,7 @@ class ModalNotificationForm(forms.ModelForm):
             'content': 'متن اطلاع‌رسانی',
             'province': 'استان',
             'city': 'شهر',
-            'individual': 'نام فرد مشخص‌شده',
+            'individual': ' فرد ',
             'user_group': 'گروه کاربران هدف',
             'action': 'اقدام مرتبط',
         }

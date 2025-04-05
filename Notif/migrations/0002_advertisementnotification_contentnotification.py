@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('Notif', '0001_initial'),
     ]
@@ -13,28 +12,38 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AdvertisementNotification',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(blank=True, null=True, upload_to='modal_images/')),
-                ('link', models.URLField(blank=True, help_text='لینک مرتبط با اطلاع\u200cرسانی', null=True)),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('image', models.ImageField(blank=True,
+                 null=True, upload_to='modal_images/')),
+                ('link', models.URLField(blank=True,
+                 help_text='لینک مرتبط با اطلاع\u200cرسانی', null=True)),
                 ('content', models.TextField()),
                 ('province', models.CharField(max_length=100)),
                 ('city', models.CharField(max_length=100)),
-                ('individual', models.CharField(blank=True, help_text='نام فرد مشخص\u200cشده', max_length=255, null=True)),
-                ('user_group', models.CharField(help_text='گروه کاربران هدف', max_length=255)),
+                ('individual', models.CharField(blank=True,
+                 help_text=' فرد \u200c', max_length=255, null=True)),
+                ('user_group', models.CharField(
+                    help_text='گروه کاربران هدف', max_length=255)),
                 ('action', models.TextField(blank=True, null=True)),
             ],
         ),
         migrations.CreateModel(
             name='ContentNotification',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(blank=True, null=True, upload_to='modal_images/')),
-                ('link', models.URLField(blank=True, help_text='لینک مرتبط با اطلاع\u200cرسانی', null=True)),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('image', models.ImageField(blank=True,
+                 null=True, upload_to='modal_images/')),
+                ('link', models.URLField(blank=True,
+                 help_text='لینک مرتبط با اطلاع\u200cرسانی', null=True)),
                 ('content', models.TextField()),
                 ('province', models.CharField(max_length=100)),
                 ('city', models.CharField(max_length=100)),
-                ('individual', models.CharField(blank=True, help_text='نام فرد مشخص\u200cشده', max_length=255, null=True)),
-                ('user_group', models.CharField(help_text='گروه کاربران هدف', max_length=255)),
+                ('individual', models.CharField(blank=True,
+                 help_text=' فرد \u200c', max_length=255, null=True)),
+                ('user_group', models.CharField(
+                    help_text='گروه کاربران هدف', max_length=255)),
                 ('action', models.TextField(blank=True, null=True)),
             ],
         ),

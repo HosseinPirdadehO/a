@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>فاکتور فروش کالا</title>
+  </head>
+  <body>
+    <h2>فاکتور فروش کالا</h2>
+    <form method="post">
+      {% csrf_token %}
+      <p>
+        <label for="buyer">خریدار:</label>
+        {{ form.buyer }}
+      </p>
+      <p>
+        <label for="order_date">تاریخ سفارش:</label>
+        {{ form.order_date }}
+      </p>
+      <p>
+        <label for="order_number">شماره سفارش:</label>
+        {{ form.order_number }}
+      </p>
+      <p>
+        <label for="delivery_date">تاریخ تحویل:</label>
+        {{ form.delivery_date }}
+      </p>
+      <p>
+        <label for="delivery_location">محل تحویل:</label>
+        {{ form.delivery_location }}
+      </p>
+      <p>
+        <label for="product_id">شناسه محصول:</label>
+        {{ form.product_id }}
+      </p>
+      <p>
+        <label for="product_name">نام محصول:</label>
+        {{ form.product_name }}
+      </p>
+      <p>
+        <label for="quantity">تعداد:</label>
+        {{ form.quantity }}
+      </p>
+      <p>
+        <label for="price">قیمت:</label>
+        {{ form.price }}
+      </p>
+      <p>
+        <label for="discount">تخفیف:</label>
+        {{ form.discount }}
+      </p>
+      <p>
+        <label for="total_price">قیمت کل:</label>
+        {{ form.total_price }}
+      </p>
+      <p>
+        <label for="payment_method">روش پرداخت:</label>
+        {{ form.payment_method }}
+      </p>
+      <p>
+        <label for="order_method">روش سفارش:</label>
+        {{ form.order_method }}
+      </p>
+      <p>
+        <label for="description">توضیحات:</label>
+        {{ form.description }}
+      </p>
+      <p>
+        <label for="total_amount">جمع مبلغ:</label>
+        {{ form.total_amount }}
+      </p>
+      <p>
+        <label for="total_discount">جمع تخفیف:</label>
+        {{ form.total_discount }}
+      </p>
+      <p>
+        <label for="shipping_cost">هزینه حمل‌و‌نقل:</label>
+        {{ form.shipping_cost }}
+      </p>
+      <p>
+        <label for="grand_total">جمع کل:</label>
+        {{ form.grand_total }}
+      </p>
+      <p>
+        <label for="order_code">کد سفارش:</label>
+        {{ form.order_code }}
+      </p>
+      <p>
+        <button type="submit">ثبت سفارش</button>
+      </p>
+    </form>
+  </body>
+</html>
