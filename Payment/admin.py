@@ -1,6 +1,6 @@
 from .models import BuyerPayment
 from django.contrib import admin
-from .models import Payment, MarketerPayment, HistoryMarketerPayment, ProductPayment
+from .models import Payment, MarketerPayment, HistoryMarketerPayment, ProductPayment, FinanciallySettled
 from django.utils.html import format_html
 
 # Register your models here.
@@ -20,11 +20,11 @@ class PaymentAdmin(admin.ModelAdmin):
 class MarketerPaymentAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'role', 'contact_number',
                     'province', 'city', 'status', 'wallet_balance')
-    # فیلترگذاری بر اساس وضعیت و موقعیت جغرافیایی
+
     list_filter = ('status', 'province', 'city')
     search_fields = ('first_name', 'last_name', 'role',
                      'contact_number', 'national_id')
-    actions = ['mark_as_active', 'mark_as_inactive']  # اکشن‌های سفارشی
+    actions = ['mark_as_active', 'mark_as_inactive']
 
     def mark_as_active(self, request, queryset):
         queryset.update(status='active')
@@ -68,4 +68,19 @@ class BuyerPaymentAdmin(admin.ModelAdmin):
     list_filter = ('province', 'city', 'debt')
     search_fields = ('full_name', 'store_name',
                      'phone_number', 'national_code')
-    ordering = ('-debt',)  # مرتب‌سازی بر اساس بدهی (نزولی)
+    ordering = ('-debt',)
+
+
+@admin.register(FinanciallySettled)
+class BuyerFinanciallySettledAdmin(admin.ModelAdmin):
+    list_display = (
+        'order_number',
+        'purchase_type',
+        'product_name',
+        'total_amount',
+        'order_date',
+        'settlement_date'
+    )
+    search_fields = ('order_number', 'product_name', 'purchase_type')
+    list_filter = ('settlement_type', 'order_date', 'delivery_date')
+    ordering = ('order_date',)

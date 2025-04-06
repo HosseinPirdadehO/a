@@ -144,3 +144,69 @@ class BuyerPayment(models.Model):
 
     def __str__(self):
         return self.full_name
+
+# مالی خریدار تسویه شده
+
+
+class FinanciallySettled(models.Model):
+    PAYMENT_LIMIT_CHOICES = [
+        ('cash', 'نقد'),
+        ('check', 'چک'),
+        ('promissory_note', 'سفته'),
+        ('Wallet', 'کیف پول'),
+        ('Gateway', 'درگاه'),
+        ('Cardreader', 'کارتخوان'),
+    ]
+    order_number = models.CharField(max_length=50, verbose_name="شماره سفارش")
+    purchase_type = models.CharField(max_length=50, verbose_name="نوع خرید")
+    product_items = models.TextField(verbose_name="اقلام کالایی")
+    total_amount = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name="مبلغ کل")
+    order_date = models.DateField(verbose_name="تاریخ سفارش")
+    delivery_date = models.DateField(verbose_name="تاریخ تحویل",)
+    settlement_date = models.DateField(verbose_name=" تاریخ تصویه حساب")
+    settlement_info = models.TextField(
+        verbose_name="اطلاعات تسویه", choices=PAYMENT_LIMIT_CHOICES)
+    document = models.FileField(upload_to='documents/', verbose_name="سند")
+    operation = models.CharField(max_length=50, verbose_name="عملیات")
+    product_name = models.CharField(max_length=100, verbose_name="نام محصول")
+    quantity = models.IntegerField(verbose_name="تعداد")
+    unit_price = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name="فی")
+    total_price = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name="جمع مبلغ")
+    settlement_type = models.CharField(max_length=50, verbose_name="نوع تسویه")
+    referred_to = models.CharField(max_length=50, verbose_name="ارجاع به ")
+    explainer_name = models.CharField(
+        max_length=50, verbose_name="نام توضیح کننده")
+
+    class Meta:
+        verbose_name = 'مالی خریدار تسویه شده'
+        verbose_name_plural = 'مالی خریدار تسویه شده'
+
+    def __str__(self):
+        return f"Order {self.order_number} - {self.product_name}"
+
+# درخواست تسویه زمان دار برای چک یا سفته
+
+
+class RequestActivation(models.Model):
+    full_name = models.CharField(
+        max_length=100, verbose_name="نام و نام خانوادگی")
+    store_name = models.CharField(max_length=100, verbose_name="نام فروشگاه")
+    phone_number = models.CharField(max_length=15, verbose_name="شماره تماس")
+    national_id = models.CharField(max_length=10, verbose_name="کد ملی")
+    province = models.CharField(max_length=50, verbose_name="استان")
+    location = models.TextField(verbose_name="لوکیشن")
+    request = models.TextField(verbose_name="درخواست")
+    registration_date = models.DateTimeField(
+        auto_now_add=True, verbose_name="تاریخ ثبت")
+    referred_to = models.CharField(max_length=100, verbose_name="ارجاع به")
+    action = models.TextField(verbose_name="اقدام")
+
+    class Meta:
+        verbose_name = 'ثبت درخواست'
+        verbose_name_plural = 'ثبت درخواست‌ها'
+
+    def __str__(self):
+        return f"{self.full_name} - {self.store_name}"

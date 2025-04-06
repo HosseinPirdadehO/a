@@ -1,7 +1,7 @@
-from .views import PaymentViewSet, MarketerPaymentViewSet, HistoryMarketerPaymentViewSet, ProductPaymentViewSet, BuyerPaymentViewSet
+from django.urls import path
+from .views import FinanciallySettledViewSet, PaymentViewSet, MarketerPaymentViewSet, HistoryMarketerPaymentViewSet, ProductPaymentViewSet, BuyerPaymentViewSet
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
-from django.urls import path
 from . import views
 
 router = DefaultRouter()
@@ -10,7 +10,8 @@ router.register(r'marketer-payments', MarketerPaymentViewSet)
 router.register(r'history-marketer-payments', HistoryMarketerPaymentViewSet)
 router.register(r'product-payments', ProductPaymentViewSet)
 router.register(r'buyer-payments', BuyerPaymentViewSet)
-
+router.register(r'financially-settled', FinanciallySettledViewSet,
+                basename='financially-settled')
 urlpatterns = [
     path('api/', include(router.urls)),
 
@@ -24,6 +25,15 @@ urlpatterns = [
          name='create_buyer_payment'),
     path('success/', views.success_page, name='success_page'),
     path('error/', views.error_page, name='error_page'),
+    ##
+    path('api/', include(router.urls)),  # مالی خریدار تسویه شده
+
+    path('financially-settled/', views.financially_settled_list,
+         name='financially_settled_list'),
+    path('financially-settled-form/', views.financially_settled_form,
+         name='financially_settled_form'),
+    path('financially-settled/<int:pk>/', views.financially_settled_detail,
+         name='financially_settled_detail'),
 ]
 
 

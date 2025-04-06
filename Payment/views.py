@@ -1,13 +1,19 @@
-from .forms import BuyerPaymentForm
-from .forms import ProductPaymentForm
-from .forms import MarketerPaymentForm
-from django.shortcuts import render, redirect
+from .forms import FinanciallySettledForm
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from .models import FinanciallySettled
+from rest_framework import viewsets, filters, status
+from rest_framework import viewsets
+from django.http import HttpResponseRedirect
+from .forms import BuyerPaymentForm, FinanciallySettledForm, ProductPaymentForm, MarketerPaymentForm
+from django.shortcuts import get_object_or_404, render, redirect
 from .forms import PaymentForm
 from rest_framework import viewsets, filters
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .models import Payment, MarketerPayment, HistoryMarketerPayment, ProductPayment, BuyerPayment
-from .Serializers import PaymentSerializer, MarketerPaymentSerializer, HistoryMarketerPaymentSerializer, ProductPaymentSerializer, BuyerPaymentSerializer
+from .models import FinanciallySettled, Payment, MarketerPayment, HistoryMarketerPayment, ProductPayment, BuyerPayment, FinanciallySettled
+from .Serializers import PaymentSerializer, MarketerPaymentSerializer, HistoryMarketerPaymentSerializer, ProductPaymentSerializer, BuyerPaymentSerializer, FinanciallySettledSerializer
 from rest_framework import status, permissions
 # Create your views here.
 
@@ -156,3 +162,70 @@ def success_page(request):
 
 def error_page(request):
     return render(request, 'error.html', {'message': 'مشکلی پیش آمده است!'})
+
+# مالی خریدار تسویه کننده
+
+# api FinanciallySettledViewSet->
+
+
+class FinanciallySettledViewSet(viewsets.ModelViewSet):
+    queryset = FinanciallySettled.objects.all()
+    serializer_class = FinanciallySettledSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['order_number', 'product_name']
+    permission_classes = [permissions.AllowAny]  # دسترسی آزاد برای کاربران
+
+    def update(self, request, *args, **kwargs):
+        try:
+            response = super().update(request, *args, **kwargs)
+            return Response({"message": "اطلاعات مالی با موفقیت به‌روزرسانی شد.", "data": response.data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": f"خطا در به‌روزرسانی اطلاعات مالی: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            response = super().destroy(request, *args, **kwargs)
+            return Response({"message": "اطلاعات مالی با موفقیت حذف شد."}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": f"خطا در حذف اطلاعات مالی: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+# فرم اصلی مالی خریدار تسویه شده
+
+
+def financially_settled_form(request):
+    try:
+        if request.method == 'POST':
+            form = FinanciallySettledForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                return render(request, 'success.html', {"message": "فرم با موفقیت ثبت شد."})
+            else:
+                return render(request, 'FinanciallySettled.html', {'form': form, 'error': 'لطفاً تمام فیلدها را به درستی پر کنید.'})
+        else:
+            form = FinanciallySettledForm()
+        return render(request, 'FinanciallySettled.html', {'form': form})
+    except Exception as e:
+        return render(request, 'error.html', {'message': f"خطا در پردازش فرم: {str(e)}"})
+
+# دیتیل فرم
+
+
+def financially_settled_detail(request, pk):
+    try:
+        settlement = get_object_or_404(FinanciallySettled, pk=pk)
+        return render(request, 'FinanciallySettledDetail.html', {'settlement': settlement})
+    except FinanciallySettled.DoesNotExist:
+        return HttpResponse("اطلاعات تسویه‌حساب یافت نشد.", status=404)
+    except Exception as e:
+        return HttpResponse(f"خطای غیرمنتظره رخ داده است: {str(e)}", status=500)
+
+# لیست تسویه شده ها
+
+
+def financially_settled_list(request):
+    try:
+        settlements = FinanciallySettled.objects.all()
+        return render(request, 'financially_settled_list.html', {'settlements': settlements})
+    except Exception as e:
+        return render(request, 'error.html', {'message': f"خطا در بارگذاری لیست تسویه‌حساب‌ها: {str(e)}"})

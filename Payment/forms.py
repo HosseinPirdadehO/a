@@ -1,3 +1,4 @@
+from .models import FinanciallySettled
 from .models import BuyerPayment
 from .models import ProductPayment
 from .models import MarketerPayment
@@ -103,4 +104,29 @@ class BuyerPaymentForm(forms.ModelForm):
             'financial_limit': 'محدودیت مالی',
             'history': 'سابقه',
             'messenger': 'پیام‌رسان'
+        }
+
+
+class FinanciallySettledForm(forms.ModelForm):
+    class Meta:
+        model = FinanciallySettled
+        fields = '__all__'  # نمایش تمام فیلدهای مدل در فرم
+        labels = {
+            'order_number': 'شماره سفارش',
+            'purchase_type': 'نوع خرید',
+            'product_items': 'اقلام کالایی',
+            'total_amount': 'مبلغ کل',
+            'order_date': 'تاریخ سفارش',
+            'delivery_date': 'تاریخ تحویل',
+            'settlement_date': 'تاریخ تصویه حساب',
+            'settlement_info': 'اطلاعات تسویه',
+            'document': 'سند',
+            'operation': 'عملیات',
+            'product_name': 'نام محصول',
+            'quantity': 'تعداد',
+            'unit_price': 'فی',
+            'total_price': 'جمع مبلغ',
+            'settlement_type': 'نوع تسویه',
+            'referred_to': 'ارجاع به',
+            'explainer_name': 'نام توضیح کننده',
         }

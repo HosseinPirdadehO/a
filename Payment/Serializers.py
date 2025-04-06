@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Payment, MarketerPayment, HistoryMarketerPayment, ProductPayment
+from .models import Payment, MarketerPayment, HistoryMarketerPayment, ProductPayment, FinanciallySettled
 
 
 from rest_framework import serializers
@@ -33,4 +33,10 @@ class ProductPaymentSerializer(serializers.ModelSerializer):
 class BuyerPaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = BuyerPayment
+        fields = '__all__'
+
+
+class FinanciallySettledSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FinanciallySettled
         fields = '__all__'
