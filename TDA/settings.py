@@ -24,9 +24,9 @@ SECRET_KEY = 'django-insecure-)zpv@#uff6*o@9$^6-k9%(7t45st3l#9%z6kkqh-^ro&u$e3n3
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
-
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['api.tda24.ir', 'www.api.tda24.ir']
+# ALLOWED_HOSTS = ['api.tda24.ir', '127.0.0.1', 'localhost']
 
 # Application definition
 

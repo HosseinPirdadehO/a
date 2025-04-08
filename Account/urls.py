@@ -1,12 +1,18 @@
-from . import main  # import روتر از فایل اصلی
-from fastapi import APIRouter
-from django.urls import path
-from .views import create_or_edit_user, success_view, user_account, user_form_view
+from .views import UserAccountViewSet, success_view, user_account_view, user_form_view
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import UserViewSet, LoginViewSet
+
+router = DefaultRouter()
+router.register(r'users', UserViewSet)
+router.register(r'user-accounts', UserAccountViewSet, basename='user-account')
+router.register(r'login', LoginViewSet, basename='login')
 
 urlpatterns = [
-    path('user_form/', user_form_view, name='user_form'),
-    path('success/', success_view, name='success'),
-    path('user/<int:user_id>/', user_account, name='user_account'),
-    path('user/edit/<int:user_id>/', create_or_edit_user, name='user_edit'),
-    path('user/new/', create_or_edit_user, name='user_create'),
+    path('api/', include(router.urls)),
+    path('user/form/<int:user_id>/', user_form_view,
+         name='user_form_view'),
+    path('user/account/<int:user_id>/', user_account_view,
+         name='user_account_view'),
+    path('success/', success_view, name='success_view'),
 ]

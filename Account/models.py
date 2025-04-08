@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password, check_password
 from django.db import models
 from django.core.validators import MinValueValidator
 from cities_light.models import City, Region
@@ -48,3 +49,15 @@ class User(models.Model):
     class Meta:
         verbose_name = 'اکانت'
         verbose_name_plural = ' اکانت'
+
+
+class Login(models.Model):
+    username = models.CharField(max_length=255, verbose_name='نام کاربری')
+    password = models.CharField(max_length=255, verbose_name='رمز عبور')
+
+    def __str__(self):
+        return self.username
+
+    class Meta:
+        verbose_name = 'ورود'
+        verbose_name_plural = 'ورودها'
