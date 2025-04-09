@@ -1,5 +1,6 @@
+from .views import RequestActivationViewSet
 from django.urls import path
-from .views import FinanciallySettledViewSet, PaymentViewSet, MarketerPaymentViewSet, HistoryMarketerPaymentViewSet, ProductPaymentViewSet, BuyerPaymentViewSet
+from .views import FinanciallySettledViewSet, PaymentViewSet, MarketerPaymentViewSet, HistoryMarketerPaymentViewSet, ProductPaymentViewSet, BuyerPaymentViewSet, request_activation_form_view
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
 from . import views
@@ -12,6 +13,10 @@ router.register(r'product-payments', ProductPaymentViewSet)
 router.register(r'buyer-payments', BuyerPaymentViewSet)
 router.register(r'financially-settled', FinanciallySettledViewSet,
                 basename='financially-settled')
+router.register(r'RequestActivation', RequestActivationViewSet,
+                basename='requestactivation')
+
+
 urlpatterns = [
     path('api/', include(router.urls)),
 
@@ -34,6 +39,10 @@ urlpatterns = [
          name='financially_settled_form'),
     path('financially-settled/<int:pk>/', views.financially_settled_detail,
          name='financially_settled_detail'),
+
+    path('api/', include(router.urls)),  # درخواست تسویه زمان دار
+    path('request_activation_view/',
+         request_activation_form_view, name='RequestActivation'),
 ]
 
 

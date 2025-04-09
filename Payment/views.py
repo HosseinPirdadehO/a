@@ -1,20 +1,14 @@
-from .forms import FinanciallySettledForm
+from .forms import RequestActivationForm, FinanciallySettledForm, PaymentForm, BuyerPaymentForm, FinanciallySettledForm, ProductPaymentForm, MarketerPaymentForm
+from .models import RequestActivation, FinanciallySettled, Payment, MarketerPayment, HistoryMarketerPayment, ProductPayment, BuyerPayment, FinanciallySettled
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework import viewsets, status
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from .models import FinanciallySettled
-from rest_framework import viewsets, filters, status
-from rest_framework import viewsets
-from django.http import HttpResponseRedirect
-from .forms import BuyerPaymentForm, FinanciallySettledForm, ProductPaymentForm, MarketerPaymentForm
+from rest_framework import viewsets, filters, status, permissions
 from django.shortcuts import get_object_or_404, render, redirect
-from .forms import PaymentForm
-from rest_framework import viewsets, filters
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .models import FinanciallySettled, Payment, MarketerPayment, HistoryMarketerPayment, ProductPayment, BuyerPayment, FinanciallySettled
-from .Serializers import PaymentSerializer, MarketerPaymentSerializer, HistoryMarketerPaymentSerializer, ProductPaymentSerializer, BuyerPaymentSerializer, FinanciallySettledSerializer
-from rest_framework import status, permissions
+from .Serializers import PaymentSerializer, MarketerPaymentSerializer, HistoryMarketerPaymentSerializer, ProductPaymentSerializer, BuyerPaymentSerializer, FinanciallySettledSerializer, RequestActivationSerializer
 # Create your views here.
 
 
@@ -226,6 +220,58 @@ def financially_settled_detail(request, pk):
 def financially_settled_list(request):
     try:
         settlements = FinanciallySettled.objects.all()
-        return render(request, 'financially_settled_list.html', {'settlements': settlements})
+        return render(request, 'FinanciallySettledList.html', {'settlements': settlements})
     except Exception as e:
         return render(request, 'error.html', {'message': f"خطا در بارگذاری لیست تسویه‌حساب‌ها: {str(e)}"})
+
+# درخواست تسویه زمان دار
+
+
+class RequestActivationViewSet(viewsets.ModelViewSet):
+    queryset = RequestActivation.objects.all()
+    serializer_class = RequestActivationSerializer
+    # permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.AllowAny]  # اجازه دسترسی آزاد
+
+    def create(self, request, *args, **kwargs):
+        try:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request, *args, **kwargs):
+        try:
+            partial = kwargs.pop('partial', False)
+            instance = self.get_object()
+            serializer = self.get_serializer(
+                instance, data=request.data, partial=partial)
+            serializer.is_valid(raise_exception=True)
+            self.perform_update(serializer)
+            return Response(serializer.data)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            self.perform_destroy(instance)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+# view template
+
+
+def request_activation_form_view(request):
+    if request.method == 'POST':
+        form = RequestActivationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'success.html', {'form': form})
+    else:
+        form = RequestActivationForm()
+    return render(request, 'RequestActivation.html', {'form': form})

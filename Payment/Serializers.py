@@ -1,3 +1,4 @@
+from .models import RequestActivation
 from rest_framework import serializers
 from .models import Payment, MarketerPayment, HistoryMarketerPayment, ProductPayment, FinanciallySettled
 
@@ -39,4 +40,10 @@ class BuyerPaymentSerializer(serializers.ModelSerializer):
 class FinanciallySettledSerializer(serializers.ModelSerializer):
     class Meta:
         model = FinanciallySettled
+        fields = '__all__'
+
+
+class RequestActivationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RequestActivation
         fields = '__all__'

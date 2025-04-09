@@ -4,10 +4,12 @@ from django.shortcuts import render, redirect
 from .forms import ProductForm
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ProductViewSet
+from .views import ProductViewSet, ProductImageViewSet
 
 router = DefaultRouter()
 router.register(r'products', ProductViewSet)
+router.register(r'product-images', ProductImageViewSet,
+                basename='product-image')
 
 urlpatterns = [
     path('api/', include(router.urls)),

@@ -57,42 +57,51 @@ class Buyer(models.Model):
         ('edited', 'ویرایش'),
         ('not_created', 'ایجاد نشده'),
     ]
-    OPERATION_CHOICES = [
-        ('register', 'ثبت'),
-        ('action', 'اقدام'),
+    OPERATIONS_CHOICES = [
         ('edit_stock', 'ویرایش موجودی'),
         ('edit_price', 'ویرایش قیمت'),
-        ('normal_sale', 'فروش عادی'),
-        ('not_for_sale', 'عدم فروش محصول'),
-        ('not_displayed', 'عدم نمایش محصول'),
+        ('register', 'ثبت'),
     ]
 
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    store_name = models.CharField(max_length=255)
-    phone_number = models.CharField(max_length=15)
-    national_id = models.CharField(max_length=10)
-    status = models.CharField(max_length=8, choices=STATUS_CHOICES)
-    province = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True)
-    city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True)
-    shopping_cart = models.TextField()
+    first_name = models.CharField(max_length=255, verbose_name="نام")
+    last_name = models.CharField(max_length=255, verbose_name="نام خانوادگی")
+    store_name = models.CharField(max_length=255, verbose_name="نام فروشگاه")
+    phone_number = models.CharField(max_length=15, verbose_name="شماره تماس")
+    national_id = models.CharField(max_length=10, verbose_name="کد ملی")
+    status = models.CharField(
+        max_length=8, choices=STATUS_CHOICES, verbose_name="وضعیت"
+    )
+    province = models.ForeignKey(
+        Region, on_delete=models.SET_NULL, null=True, verbose_name="استان"
+    )
+    city = models.ForeignKey(
+        City, on_delete=models.SET_NULL, null=True, verbose_name="شهر"
+    )
+    shopping_cart = models.TextField(verbose_name="سبد خرید")
     financial_limit = models.CharField(
-        max_length=15, choices=PAYMENT_LIMIT_CHOICES)
-    purchase_history = models.TextField()
-    messenger = models.CharField(max_length=255)
-    authentication = models.BooleanField(default=False)
+        max_length=15, choices=PAYMENT_LIMIT_CHOICES, verbose_name="محدودیت مالی"
+    )
+    purchase_history = models.TextField(verbose_name="سابقه خرید")
+    messenger = models.CharField(max_length=255, verbose_name="پیام‌رسان")
+    authentication = models.BooleanField(
+        default=False, verbose_name="احراز هویت"
+    )
     operations = models.CharField(
-        max_length=12, choices=OPERATIONS_CHOICES, default='register')
+        max_length=12, choices=OPERATIONS_CHOICES, default='register', verbose_name="عملیات"
+    )
     current_location = models.CharField(
-        max_length=255, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+        max_length=255, null=True, verbose_name="موقعیت فعلی"
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="زمان ایجاد"
+    )
 
     class Meta:
         verbose_name = 'خریدار'
-        verbose_name_plural = 'خریدار'
+        verbose_name_plural = 'خریداران'
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f"{self.first_name} {self.last_name} - {self.store_name}"
 
     def update_location(self, latitude, longitude):
         geolocator = Nominatim(user_agent="geoapiExercises")
@@ -102,78 +111,108 @@ class Buyer(models.Model):
 
 
 class BuyerCart(models.Model):
-    order_number = models.CharField(max_length=50)  # شماره سفارش
-    purchase_type = models.CharField(max_length=50)  # نوع خرید
-    order_date = models.DateTimeField()  # تاریخ سفارش
-    delivery_date = models.DateTimeField()  # تاریخ تحویل
+    order_number = models.CharField(max_length=50, verbose_name="شماره سفارش")
+    purchase_type = models.CharField(max_length=50, verbose_name="نوع خرید")
+    order_date = models.DateTimeField(verbose_name="تاریخ سفارش")
+    delivery_date = models.DateTimeField(verbose_name="تاریخ تحویل")
     total_amount = models.DecimalField(
-        max_digits=10, decimal_places=2)  # مبلغ کل
-    settlement_type = models.CharField(
-        max_length=50)  # نوع تسویه نیاز به ادیت دارد
-    product_name = models.CharField(max_length=100)  # نام محصول
-    quantity = models.PositiveIntegerField()  # تعداد
-    unit_price = models.DecimalField(max_digits=10, decimal_places=2)  # فی
+        max_digits=10, decimal_places=2, verbose_name="مبلغ کل")
+    settlement_type = models.CharField(max_length=50, verbose_name="نوع تسویه")
+    product_name = models.CharField(max_length=100, verbose_name="نام محصول")
+    quantity = models.PositiveIntegerField(verbose_name="تعداد")
+    unit_price = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name="فی")
 
     class Meta:
         verbose_name = 'سبد خرید'
-        verbose_name_plural = 'سبد خرید'
+        verbose_name_plural = 'سبد خرید‌ها'
+
+    def __str__(self):
+        return f"Order {self.order_number} - {self.product_name}"
 
 
 class BuyerProduct(models.Model):
     cart = models.ForeignKey(
-        BuyerCart, on_delete=models.CASCADE, related_name="products")  # ارجاع به سبد خرید
-    product_name = models.CharField(max_length=100)  # نام محصول
-    quantity = models.PositiveIntegerField()  # تعداد
-    unit_price = models.DecimalField(max_digits=10, decimal_places=2)  # فی
+        BuyerCart, on_delete=models.CASCADE, related_name="products", verbose_name="سبد خرید"
+    )  # ارجاع به سبد خرید
+    product_name = models.CharField(max_length=100, verbose_name="نام محصول")
+    quantity = models.PositiveIntegerField(verbose_name="تعداد")
+    unit_price = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name="قیمت واحد")
 
     class Meta:
-        verbose_name = 'خریدار محصول'
-        verbose_name_plural = 'خریدار محصول'
+        verbose_name = 'محصول خریدار'
+        verbose_name_plural = 'محصولات خریدار'
+
+    def __str__(self):
+        return f"{self.product_name} - تعداد: {self.quantity}"
 
 
 class PurchaseHistory(models.Model):
-    contact_number = models.CharField(max_length=20)  # شماره تماس
-    purchase_type = models.CharField(max_length=50)  # نوع خرید
-    order_date = models.DateTimeField()  # تاریخ سفارش
-    delivery_date = models.DateTimeField()  # تاریخ تحویل
-    settlement_date = models.DateTimeField()  # تاریخ تسویه حساب
-    settlement_details = models.TextField()  # اطلاعات تسویه
+    contact_number = models.CharField(
+        max_length=20, verbose_name="شماره تماس")
+    purchase_type = models.CharField(
+        max_length=50, verbose_name="نوع خرید")
+    order_date = models.DateTimeField(
+        verbose_name="تاریخ سفارش")
+    delivery_date = models.DateTimeField(
+        verbose_name="تاریخ تحویل")
+    settlement_date = models.DateTimeField(
+        verbose_name="تاریخ تسویه حساب")
+    settlement_details = models.TextField(
+        verbose_name="اطلاعات تسویه")
 
     class Meta:
         verbose_name = 'تاریخچه خرید'
-        verbose_name_plural = 'تاریخچه خرید'
+        verbose_name_plural = 'تاریخچه‌های خرید'
+
+    def __str__(self):
+        return f"Purchase on {self.order_date} - {self.purchase_type}"
 
 
 class PurchaseHistoryProduct(models.Model):
     purchase_history = models.ForeignKey(
-        PurchaseHistory, on_delete=models.CASCADE, related_name="products")  # ارجاع به سابقه خرید
-    product_name = models.CharField(max_length=100)  # نام محصول
-    quantity = models.PositiveIntegerField()  # تعداد
-    unit_price = models.DecimalField(max_digits=10, decimal_places=2)  # فی
+        PurchaseHistory, on_delete=models.CASCADE, related_name="products", verbose_name="سابقه خرید"
+    )  # ارجاع به سابقه خرید
+    product_name = models.CharField(
+        max_length=100, verbose_name="نام محصول")
+    quantity = models.PositiveIntegerField(verbose_name="تعداد")
+    unit_price = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name="قیمت واحد")
     total_price = models.DecimalField(
-        max_digits=10, decimal_places=2)  # جمع کل
+        max_digits=10, decimal_places=2, verbose_name="جمع کل")
 
     class Meta:
-        verbose_name = 'تاریخچه خرید محصول'
-        verbose_name_plural = 'تاریخچه خرید محصول'
+        verbose_name = 'جزئیات محصول در سابقه خرید'
+        verbose_name_plural = 'جزئیات محصولات در سابقه خرید'
+
+    def __str__(self):
+        return f"{self.product_name} - تعداد: {self.quantity} - قیمت کل: {self.total_price}"
 
 
 class BuyerAuthentication(models.Model):
-    contact_number = models.BooleanField(default=False)   # شماره تماس
-    national_id = models.BooleanField(default=False)  # کد ملی
+    contact_number = models.BooleanField(
+        default=False, verbose_name="تأیید شماره تماس"
+    )
+    national_id = models.BooleanField(
+        default=False, verbose_name="تأیید کد ملی"
+    )
     id_card_image = models.ImageField(
-        upload_to='auth_documents/id_cards/')  # تصویر کارت ملی
+        upload_to='auth_documents/id_cards/', verbose_name="تصویر کارت ملی"
+    )
     birth_certificate_image = models.ImageField(
-        upload_to='auth_documents/birth_certificates/')  # تصویر شناسنامه
+        upload_to='auth_documents/birth_certificates/', verbose_name="تصویر شناسنامه"
+    )
     guarantee_or_check_contract = models.FileField(
-        upload_to='auth_documents/contracts/')  # قرارداد ضمانت یا چک
+        upload_to='auth_documents/contracts/', verbose_name="قرارداد ضمانت یا چک"
+    )
 
     class Meta:
         verbose_name = 'احراز هویت خریدار'
-        verbose_name_plural = 'احراز هویت خریدار'
+        verbose_name_plural = 'احراز هویت خریداران'
 
     def __str__(self):
-        return f"Buyer: {self.contact_number} - National ID: {self.national_id}"
+        return f"Buyer Authentication - Contact: {self.contact_number}, National ID: {self.national_id}"
 
 
 # from django.db import models

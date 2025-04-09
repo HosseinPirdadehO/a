@@ -47,6 +47,26 @@ class BuyerForm(forms.ModelForm):
             'created_at': 'زمان ایجاد',
         }
 
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)  # گرفتن اطلاعات کاربر
+        super(BuyerForm, self).__init__(*args, **kwargs)
+
+        if user and user.is_authenticated:
+            self.fields['settlement_info'].choices = [
+                ('cash', 'نقد'),
+                ('check', 'چک'),
+                ('promissory_note', 'سفته'),
+                ('Wallet', 'کیف پول'),
+                ('Gateway', 'درگاه'),
+            ]
+
+            self.fields['settlement_info'].choices = [
+                ('cash', 'نقد'),
+                ('check', 'کیف پول'),
+                ('promissory_note', 'درگاه'),
+            ]
+
+
 # سبد خرید
 
 

@@ -1,23 +1,26 @@
+
+from rest_framework import viewsets
 from django.shortcuts import render
 from django.shortcuts import render, redirect
 from .forms import ProductForm
-# Create your views here.
 from rest_framework import viewsets, filters, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .models import Product
-from .Serializers import ProductSerializer
+from .models import Product, ProductImage
+from .Serializers import ProductSerializer, ProductImageSerializer
 from rest_framework import status, permissions
+
+# Create your views here.
 
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['name', 'category', 'brand']  # امکان جستجو
+    search_fields = ['name', 'category', 'brand']
     ordering_fields = ['purchase_price', 'sale_price',
-                       'stock', 'expiration_date']  # مرتب‌سازی
-    ordering = ['-created_at']  # مرتب‌سازی پیش‌فرض
+                       'stock', 'expiration_date']
+    ordering = ['-created_at']
     # محدود کردن دسترسی به کاربران احراز هویت‌شده
     # permission_classes = [IsAuthenticated]
     permission_classes = [permissions.AllowAny]  # اجازه دسترسی آزاد
@@ -85,3 +88,8 @@ def success_page(request):
 
 def error_page(request):
     return render(request, 'error_page.html', {'message': 'عملیات با موفقیت انجام شد!'})
+
+
+class ProductImageViewSet(viewsets.ModelViewSet):
+    queryset = ProductImage.objects.all()
+    serializer_class = ProductImageSerializer

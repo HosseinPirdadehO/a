@@ -5,13 +5,18 @@ from django.db import models
 
 class Payment(models.Model):
     OPERATIONS_CHOICES = [
-        ('register', 'ثبت'),
-        ('action', 'اقدام'),
-        ('edit_stock', 'ویرایش موجودی'),
-        ('edit_price', 'ویرایش قیمت'),
-        ('normal_sale', 'فروش عادی'),
-        ('not_for_sale', 'عدم فروش محصول'),
-        ('not_displayed', 'عدم نمایش محصول'),
+        ('created', 'ایجاد'),
+        ('edited', 'ویرایش'),
+        ('not_created', 'ایجاد نشده'),
+    ]
+
+    PAYMENT_LIMIT_CHOICES = [
+        ('cash', 'نقد'),
+        ('check', 'چک'),
+        ('promissory_note', 'سفته'),
+        ('Wallet', 'کیف پول'),
+        ('Gateway', 'درگاه'),
+        ('Cardreader', 'کارتخوان'),
     ]
     first_name = models.CharField(max_length=50)  # نام
     last_name = models.CharField(max_length=50)  # نام خانوادگی
@@ -24,7 +29,7 @@ class Payment(models.Model):
     debt = models.DecimalField(
         max_digits=15, decimal_places=2, default=0.0)  # بدهی
     financial_limit = models.DecimalField(
-        max_digits=15, decimal_places=2, default=0.0)  # محدودیت مالی
+        max_digits=15, decimal_places=2, default=0.0, choices=PAYMENT_LIMIT_CHOICES)  # محدودیت مالی
     history = models.TextField(blank=True)  # سابقه
     notifications = models.TextField(blank=True)  # نوتیفیکیشن‌ها
     operations = models.CharField(
@@ -41,23 +46,31 @@ class Payment(models.Model):
 
 
 class MarketerPayment(models.Model):
-    first_name = models.CharField(max_length=50)  # نام
-    last_name = models.CharField(max_length=50)  # نام خانوادگی
-    role = models.CharField(max_length=50)  # نقش
-    contact_number = models.CharField(max_length=20)  # شماره تماس
-    national_id = models.CharField(max_length=10, unique=True)  # کد ملی
-    province = models.CharField(max_length=50)  # استان
-    city = models.CharField(max_length=50)  # شهر
-    status = models.CharField(max_length=20, choices=[(
-        'active', 'فعال'), ('inactive', 'غیرفعال')])  # وضعیت
+    first_name = models.CharField(max_length=50, verbose_name="نام")
+    last_name = models.CharField(
+        max_length=50, verbose_name="نام خانوادگی")
+    role = models.CharField(max_length=50, verbose_name="نقش")
+    contact_number = models.CharField(
+        max_length=20, verbose_name="شماره تماس")
+    national_id = models.CharField(
+        max_length=10, unique=True, verbose_name="کد ملی")
+    province = models.CharField(max_length=50, verbose_name="استان")
+    city = models.CharField(max_length=50, verbose_name="شهر")
+    status = models.CharField(
+        max_length=20,
+        choices=[('active', 'فعال'), ('inactive', 'غیرفعال')],
+        verbose_name="وضعیت"
+    )
     wallet_balance = models.DecimalField(
-        max_digits=15, decimal_places=2, default=0.0)  # کیف پول
-    notifications = models.TextField(blank=True)  # نوتیفیکیشن‌ها
-    actions = models.TextField(blank=True)  # عملیات
+        max_digits=15, decimal_places=2, default=0.0, verbose_name="موجودی کیف پول"
+    )
+    notifications = models.TextField(
+        blank=True, verbose_name="نوتیفیکیشن‌ها")
+    actions = models.TextField(blank=True, verbose_name="عملیات")
 
     class Meta:
         verbose_name = 'مالی بازاریاب'
-        verbose_name_plural = 'مالی بازاریاب'
+        verbose_name_plural = 'مالی بازاریاب‌ها'
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.role}"
@@ -122,6 +135,17 @@ class ProductPayment(models.Model):  # سابقه محصول
 
 
 class BuyerPayment(models.Model):
+    PAYMENT_LIMIT_CHOICES = [
+        ('cash', 'نقد'),
+        ('check', 'چک'),
+        ('promissory_note', 'سفته'),
+        ('Wallet', 'کیف پول'),
+        ('Gateway', 'درگاه'),
+        ('Cardreader', 'کارتخوان'),
+    ]
+
+    payment = models.ForeignKey(
+        Payment, on_delete=models.CASCADE, related_name="settlements", verbose_name=" مالی ", null=True)
     full_name = models.CharField(
         max_length=255, verbose_name="نام و نام خانوادگی")
     store_name = models.CharField(max_length=255, verbose_name="نام فروشگاه")
@@ -133,7 +157,7 @@ class BuyerPayment(models.Model):
     debt = models.DecimalField(
         max_digits=10, decimal_places=2, verbose_name="بدهی")
     financial_limit = models.DecimalField(
-        max_digits=10, decimal_places=2, verbose_name="محدودیت مالی")
+        max_digits=10, decimal_places=2, verbose_name="محدودیت مالی", choices=PAYMENT_LIMIT_CHOICES)
     history = models.TextField(blank=True, verbose_name="سابقه")
     messenger = models.CharField(
         max_length=50, blank=True, verbose_name="پیام رسان")

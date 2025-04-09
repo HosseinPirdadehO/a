@@ -1,3 +1,4 @@
+from .models import RequestActivation
 from .models import FinanciallySettled
 from .models import BuyerPayment
 from .models import ProductPayment
@@ -30,6 +31,25 @@ class PaymentForm(forms.ModelForm):
             'history': 'سابقه',
             'notifications': 'نوتیفیکیشن‌ها'
         }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)  # گرفتن اطلاعات کاربر
+        super(FinanciallySettledForm, self).__init__(*args, **kwargs)
+
+        if user and user.is_authenticated:
+            self.fields['settlement_info'].choices = [
+                ('cash', 'نقد'),
+                ('check', 'چک'),
+                ('promissory_note', 'سفته'),
+                ('Wallet', 'کیف پول'),
+                ('Gateway', 'درگاه'),
+            ]
+
+            self.fields['settlement_info'].choices = [
+                ('cash', 'نقد'),
+                ('check', 'کیف پول'),
+                ('promissory_note', 'درگاه'),
+            ]
 
 # مالی بازاریاب
 
@@ -106,6 +126,25 @@ class BuyerPaymentForm(forms.ModelForm):
             'messenger': 'پیام‌رسان'
         }
 
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)  # گرفتن اطلاعات کاربر
+        super(FinanciallySettledForm, self).__init__(*args, **kwargs)
+
+        if user and user.is_authenticated:
+            self.fields['settlement_info'].choices = [
+                ('cash', 'نقد'),
+                ('check', 'چک'),
+                ('promissory_note', 'سفته'),
+                ('Wallet', 'کیف پول'),
+                ('Gateway', 'درگاه'),
+            ]
+
+            self.fields['settlement_info'].choices = [
+                ('cash', 'نقد'),
+                ('check', 'کیف پول'),
+                ('promissory_note', 'درگاه'),
+            ]
+
 
 class FinanciallySettledForm(forms.ModelForm):
     class Meta:
@@ -129,4 +168,37 @@ class FinanciallySettledForm(forms.ModelForm):
             'settlement_type': 'نوع تسویه',
             'referred_to': 'ارجاع به',
             'explainer_name': 'نام توضیح کننده',
+        }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)  # گرفتن اطلاعات کاربر
+        super(FinanciallySettledForm, self).__init__(*args, **kwargs)
+
+        if user and user.is_authenticated:
+            self.fields['settlement_info'].choices = [
+                ('cash', 'نقد'),
+                ('check', 'چک'),
+                ('promissory_note', 'سفته'),
+                ('Wallet', 'کیف پول'),
+                ('Gateway', 'درگاه'),
+            ]
+
+            self.fields['settlement_info'].choices = [
+                ('cash', 'نقد'),
+                ('check', 'کیف پول'),
+                ('promissory_note', 'درگاه'),
+            ]
+
+
+# درخواست تسویه زمان دار
+
+
+class RequestActivationForm(forms.ModelForm):
+    class Meta:
+        model = RequestActivation
+        fields = '__all__'
+        widgets = {
+            'location': forms.Textarea(attrs={'cols': 80, 'rows': 4}),
+            'request': forms.Textarea(attrs={'cols': 80, 'rows': 4}),
+            'action': forms.Textarea(attrs={'cols': 80, 'rows': 4}),
         }
