@@ -1,6 +1,6 @@
 from django.utils.html import mark_safe
 from django.contrib import admin
-from .models import Product
+from .models import Product, ProductImage
 from django.utils.html import format_html
 # Register your models here.
 
@@ -9,11 +9,10 @@ from django.utils.html import format_html
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'category', 'brand', 'stock', 'unit',
                     'sale_price', 'sale_status', 'expiration_date', 'image_preview')
-
+    readonly_fields = ('created_at', 'image_preview')
     search_fields = ('name', 'category', 'brand')
 
     list_filter = ('category', 'brand', 'sale_status', 'expiration_date')
-    readonly_fields = ('image_preview',)
     fieldsets = (
         ('اطلاعات اصلی', {
             'fields': ('name', 'image', 'image_preview', 'category', 'brand')
@@ -41,11 +40,11 @@ class ProductAdmin(admin.ModelAdmin):
         return "بدون تصویر"
     main_image_preview.short_description = "پیش‌نمایش تصویر اصلی"
 
-    # def ProductImage(self, obj):
-    #     if obj.main_image:
-    #         return format_html('<img src="{}" width="50" height="50" />', obj.main_image.url)
-    #     return "بدون تصویر"
-    # ProductImage.short_description = "پیش‌نمایش تصویر اضافی"
+    def ProductImage(self, obj):
+        if obj.main_image:
+            return format_html('<img src="{}" width="50" height="50" />', obj.main_image.url)
+        return "بدون تصویر"
+    ProductImage.short_description = "پیش‌نمایش تصویر اضافی"
 
     def barcode_image(self, obj):
         return mark_safe(f'<img src="/media/{obj.barcode}" width="100" />')
