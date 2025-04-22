@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <title>مالی محصول</title>
+  </head>
+  <body>
+    <h1>مالی محصول</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div>
+        <label for="id_image">تصویر محصول:</label>
+        {{ form.image }}
+      </div>
+      <div>
+        <label for="id_product_name">نام محصول:</label>
+        {{ form.product_name }}
+      </div>
+      <div>
+        <label for="id_stock">موجودی:</label>
+        {{ form.stock }}
+      </div>
+      <div>
+        <label for="id_unit">واحد:</label>
+        {{ form.unit }}
+      </div>
+      <div>
+        <label for="id_purchase_price">قیمت خرید:</label>
+        {{ form.purchase_price }}
+      </div>
+      <div>
+        <label for="id_sale_price">قیمت فروش:</label>
+        {{ form.sale_price }}
+      </div>
+      <div>
+        <label for="id_cover_price">قیمت روی جلد:</label>
+        {{ form.cover_price }}
+      </div>
+      <div>
+        <label for="id_operation">عملیات:</label>
+        {{ form.operation }}
+      </div>
+      <div>
+        <label for="id_profit_percentage">درصد سود:</label>
+        {{ form.profit_percentage }}
+      </div>
+      <div>
+        <label for="id_inventory_turnover">گردش کالا:</label>
+        {{ form.inventory_turnover }}
+      </div>
+      <div>
+        <label for="id_sales_history">سابقه فروش:</label>
+        {{ form.sales_history }}
+      </div>
+      <div>
+        <label for="id_actions">عملیات:</label>
+        {{ form.actions }}
+      </div>
+      <button type="submit">ارسال</button>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>موجودی</title>
+  </head>
+  <body>
+    <h1>مدیریت موجودی</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <label for="id_image">تصویر:</label>
+      {{ form.image }}
+
+      <label for="id_product_name">نام محصول:</label>
+      {{ form.product_name }}
+
+      <label for="id_stock">موجودی:</label>
+      {{ form.stock }}
+
+      <label for="id_unit">واحد:</label>
+      {{ form.unit }}
+
+      <label for="id_stock_alert">هشدار موجودی:</label>
+      {{ form.stock_alert }}
+
+      <label for="id_category">دسته‌بندی:</label>
+      {{ form.category }}
+
+      <label for="id_brand">برند:</label>
+      {{ form.brand }}
+
+      <label for="id_purchase_price">قیمت خرید:</label>
+      {{ form.purchase_price }}
+
+      <label for="id_cover_price">قیمت روی جلد:</label>
+      {{ form.cover_price }}
+
+      <label for="id_sale_price">قیمت فروش:</label>
+      {{ form.sale_price }}
+
+      <label for="id_manufacture_date">تاریخ تولید:</label>
+      {{ form.manufacture_date }}
+
+      <label for="id_expiry_date">تاریخ انقضا:</label>
+      {{ form.expiry_date }}
+
+      <label for="id_expiry_threshold">آستانه انقضا (روز):</label>
+      {{ form.expiry_threshold }}
+
+      <label for="id_sale_status">وضعیت فروش:</label>
+      {{ form.sale_status }}
+
+      <label for="id_sale_range">دامنه فروش:</label>
+      {{ form.sale_range }}
+
+      <label for="id_marketer_profit">سود بازاریاب:</label>
+      {{ form.marketer_profit }}
+
+      <label for="id_turnover">گردش مالی:</label>
+      {{ form.turnover }}
+
+      <label for="id_operations">عملیات:</label>
+      {{ form.operations }}
+
+      <label for="id_description">توضیحات:</label>
+      {{ form.description }}
+
+      <button type="submit">ثبت</button>
+    </form>
+  </body>
+</html>

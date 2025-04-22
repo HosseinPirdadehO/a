@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <title>فرم احراز هویت خریدار</title>
+  </head>
+  <body>
+    <h1>فرم احراز هویت خریدار</h1>
+    <form method="post">
+      {% csrf_token %} {% for field in form %}
+      <label>{{ field.label }}</label>
+      {{ field }}
+      <br />
+      {% endfor %}
+      <button type="submit">ذخیره</button>
+    </form>
+    <a href="/">بازگشت</a>
+  </body>
+</html>

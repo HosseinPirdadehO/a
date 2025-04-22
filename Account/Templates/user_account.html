@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <title>اطلاعات یوزر اکانت</title>
+  </head>
+  <body>
+    <h1>اطلاعات یوزر اکانت</h1>
+    <table border="1" cellspacing="0" cellpadding="5">
+      <tr>
+        <th>نام</th>
+        <td>{{ user.first_name }}</td>
+      </tr>
+      <tr>
+        <th>نام خانوادگی</th>
+        <td>{{ user.last_name }}</td>
+      </tr>
+      <tr>
+        <th>نقش</th>
+        <td>{{ user.role }}</td>
+      </tr>
+      <tr>
+        <th>شماره تماس</th>
+        <td>{{ user.phone_number }}</td>
+      </tr>
+      <tr>
+        <th>کد ملی</th>
+        <td>{{ user.national_id }}</td>
+      </tr>
+      <tr>
+        <th>استان</th>
+        <td>{{ user.province.name }}</td>
+      </tr>
+      <tr>
+        <th>شهر</th>
+        <td>{{ user.city.name }}</td>
+      </tr>
+      <tr>
+        <th>وضعیت کیف پول</th>
+        <td>{{ user.wallet_status }}</td>
+      </tr>
+      <tr>
+        <th>پیام‌رسان</th>
+        <td>{{ user.messenger }}</td>
+      </tr>
+      <tr>
+        <th>عملیات</th>
+        <td>{{ user.operations }}</td>
+      </tr>
+      <tr>
+        <th>وضعیت</th>
+        <td>{{ user.status }}</td>
+      </tr>
+      <tr>
+        <th>تاریخ ایجاد</th>
+        <td>{{ user.created_at }}</td>
+      </tr>
+    </table>
+  </body>
+</html>

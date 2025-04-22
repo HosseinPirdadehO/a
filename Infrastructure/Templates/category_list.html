@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>لیست دسته‌بندی‌ها</title>
+  </head>
+  <body>
+    <div>
+      <h1>لیست دسته‌بندی‌ها</h1>
+      <a href="{% url 'create_category' %}" class="btn btn-success"
+        >افزودن دسته‌بندی جدید</a
+      >
+      <table>
+        <thead>
+          <tr>
+            <th>نام</th>
+            <th>توضیحات</th>
+            <th>عملیات</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for category in categories %}
+          <tr>
+            <td>{{ category.name }}</td>
+            <td>{{ category.description }}</td>
+            <td>
+              <a href="{% url 'edit_category' category.id %}">ویرایش</a> |
+              <a href="{% url 'delete_category' category.id %}">حذف</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="3">هیچ دسته‌بندی‌ای یافت نشد.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <title>مالی بازاریاب</title>
+  </head>
+  <body>
+    <h1>مالی بازاریاب</h1>
+    <form method="post">
+      {% csrf_token %}
+      <div>
+        <label for="id_first_name">نام:</label>
+        {{ form.first_name }}
+      </div>
+      <div>
+        <label for="id_last_name">نام خانوادگی:</label>
+        {{ form.last_name }}
+      </div>
+      <div>
+        <label for="id_role">نقش:</label>
+        {{ form.role }}
+      </div>
+      <div>
+        <label for="id_contact_number">شماره تماس:</label>
+        {{ form.contact_number }}
+      </div>
+      <div>
+        <label for="id_national_id">کد ملی:</label>
+        {{ form.national_id }}
+      </div>
+      <div>
+        <label for="id_province">استان:</label>
+        {{ form.province }}
+      </div>
+      <div>
+        <label for="id_city">شهر:</label>
+        {{ form.city }}
+      </div>
+      <div>
+        <label for="id_status">وضعیت:</label>
+        {{ form.status }}
+      </div>
+      <div>
+        <label for="id_wallet_balance">کیف پول:</label>
+        {{ form.wallet_balance }}
+      </div>
+      <div>
+        <label for="id_notifications">نوتیفیکیشن‌:</label>
+        {{ form.notifications }}
+      </div>
+      <div>
+        <label for="id_actions">عملیات:</label>
+        {{ form.actions }}
+      </div>
+      <button type="submit">ارسال</button>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ثبت درخواست تسویه</title>
+  </head>
+  <body>
+    <h1>ثبت درخواست</h1>
+    <form method="post">
+      {% csrf_token %}
+      <label for="full_name">نام و نام خانوادگی:</label>
+      {{ form.full_name }}<br /><br />
+
+      <label for="store_name">نام فروشگاه:</label>
+      {{ form.store_name }}<br /><br />
+
+      <label for="phone_number">شماره تماس:</label>
+      {{ form.phone_number }}<br /><br />
+
+      <label for="national_id">کد ملی:</label>
+      {{ form.national_id }}<br /><br />
+
+      <label for="province">استان:</label>
+      {{ form.province }}<br /><br />
+
+      <label for="location">لوکیشن:</label>
+      {{ form.location }}<br /><br />
+
+      <label for="request">درخواست:</label>
+      {{ form.request }}<br /><br />
+
+      <label for="registration_date">تاریخ ثبت:</label>
+      {{ form.registration_date }}<br /><br />
+
+      <label for="referred_to">ارجاع به:</label>
+      {{ form.referred_to }}<br /><br />
+
+      <label for="action">اقدام:</label>
+      {{ form.action }}<br /><br />
+
+      <button type="submit">ارسال درخواست</button>
+    </form>
+  </body>
+</html>

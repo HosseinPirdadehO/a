@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <title>لیست تسویه‌حساب‌ها</title>
+  </head>
+  <body>
+    <h1>لیست تسویه‌حساب‌ها</h1>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>شماره سفارش</th>
+          <th>نوع خرید</th>
+          <th>نام محصول</th>
+          <th>مبلغ کل</th>
+          <th>تاریخ سفارش</th>
+          <th>جزئیات</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for settlement in settlements %}
+        <tr>
+          <td>{{ settlement.order_number }}</td>
+          <td>{{ settlement.purchase_type }}</td>
+          <td>{{ settlement.product_name }}</td>
+          <td>{{ settlement.total_amount }}</td>
+          <td>{{ settlement.order_date }}</td>
+          <td>
+            <a href="{% url 'financially_settled_detail' settlement.id %}"
+              >مشاهده جزئیات</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+        <a href="{% url 'financially_settled_detail' settlement.id %}"
+          >مشاهده جزئیات</a
+        >
+      </tbody>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>دسته‌بندی</title>
+  </head>
+  <body>
+    <div>
+      <h1>افزودن/ویرایش دسته‌بندی</h1>
+      <form method="post">
+        {% csrf_token %}
+        <div>{{ form.name.label_tag }} {{ form.name }}</div>
+        <div>{{ form.description.label_tag }} {{ form.description }}</div>
+        <button type="submit">ذخیره</button>
+        <a href="{% url 'category_list' %}">بازگشت</a>
+      </form>
+    </div>
+  </body>
+</html>

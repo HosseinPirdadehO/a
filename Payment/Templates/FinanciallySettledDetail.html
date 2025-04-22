@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <title>جزئیات تسویه‌حساب</title>
+  </head>
+  <body>
+    <h1>جزئیات تسویه‌حساب</h1>
+    <p><strong>شماره سفارش:</strong> {{ settlement.order_number }}</p>
+    <p><strong>نوع خرید:</strong> {{ settlement.purchase_type }}</p>
+    <p><strong>اقلام کالایی:</strong> {{ settlement.product_items }}</p>
+    <p><strong>مبلغ کل:</strong> {{ settlement.total_amount }}</p>
+    <p><strong>تاریخ سفارش:</strong> {{ settlement.order_date }}</p>
+    <p><strong>تاریخ تحویل:</strong> {{ settlement.delivery_date }}</p>
+    <p><strong>تاریخ تسویه‌حساب:</strong> {{ settlement.settlement_date }}</p>
+    <p><strong>اطلاعات تسویه:</strong> {{ settlement.settlement_info }}</p>
+    <p><strong>نام محصول:</strong> {{ settlement.product_name }}</p>
+    <p><strong>تعداد:</strong> {{ settlement.quantity }}</p>
+    <p><strong>فی:</strong> {{ settlement.unit_price }}</p>
+    <p><strong>جمع مبلغ:</strong> {{ settlement.total_price }}</p>
+    <p><strong>نوع تسویه:</strong> {{ settlement.settlement_type }}</p>
+    <p><strong>ارجاع به:</strong> {{ settlement.referred_to }}</p>
+    <p><strong>نام توضیح‌کننده:</strong> {{ settlement.explainer_name }}</p>
+    <a href="{% url 'financially_settled_list' %}">مشاهده لیست تسویه‌حساب‌ها</a>
+  </body>
+</html>

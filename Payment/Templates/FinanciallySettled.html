@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <title>فرم تسویه‌حساب مالی</title>
+  </head>
+  <body>
+    <h1>فرم تسویه‌حساب مالی</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div>
+        <label for="order_number">شماره سفارش:</label>
+        {{ form.order_number }}
+      </div>
+      <div>
+        <label for="purchase_type">نوع خرید:</label>
+        {{ form.purchase_type }}
+      </div>
+      <div>
+        <label for="product_items">اقلام کالایی:</label>
+        {{ form.product_items }}
+      </div>
+      <div>
+        <label for="total_amount">مبلغ کل:</label>
+        {{ form.total_amount }}
+      </div>
+      <div>
+        <label for="order_date">تاریخ سفارش:</label>
+        {{ form.order_date }}
+      </div>
+      <div>
+        <label for="delivery_date">تاریخ تحویل:</label>
+        {{ form.delivery_date }}
+      </div>
+      <div>
+        <label for="settlement_date">تاریخ تسویه‌حساب:</label>
+        {{ form.settlement_date }}
+      </div>
+      <div>
+        <label for="settlement_info">اطلاعات تسویه:</label>
+        {{ form.settlement_info }}
+      </div>
+      <div>
+        <label for="document">سند:</label>
+        {{ form.document }}
+      </div>
+      <div>
+        <label for="operation">عملیات:</label>
+        {{ form.operation }}
+      </div>
+      <div>
+        <label for="product_name">نام محصول:</label>
+        {{ form.product_name }}
+      </div>
+      <div>
+        <label for="quantity">تعداد:</label>
+        {{ form.quantity }}
+      </div>
+      <div>
+        <label for="unit_price">فی:</label>
+        {{ form.unit_price }}
+      </div>
+      <div>
+        <label for="total_price">جمع مبلغ:</label>
+        {{ form.total_price }}
+      </div>
+      <div>
+        <label for="settlement_type">نوع تسویه:</label>
+        {{ form.settlement_type }}
+      </div>
+      <div>
+        <label for="referred_to">ارجاع به:</label>
+        {{ form.referred_to }}
+      </div>
+      <div>
+        <label for="explainer_name">نام توضیح‌کننده:</label>
+        {{ form.explainer_name }}
+      </div>
+      <button type="submit">ثبت اطلاعات</button>
+    </form>
+  </body>
+</html>

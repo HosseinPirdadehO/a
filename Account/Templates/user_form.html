@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <title>فرم کاربر</title>
+  </head>
+  <body>
+    <h1>فرم اطلاعات کاربر</h1>
+    <form method="post">
+      {% csrf_token %}
+      <label for="id_first_name">نام:</label>
+      {{ form.first_name }} <br /><br />
+
+      <label for="id_last_name">نام خانوادگی:</label>
+      {{ form.last_name }} <br /><br />
+
+      <label for="id_role">نقش:</label>
+      {{ form.role }} <br /><br />
+
+      <label for="id_phone_number">شماره تماس:</label>
+      {{ form.phone_number }} <br /><br />
+
+      <label for="id_national_id">کد ملی:</label>
+      {{ form.national_id }} <br /><br />
+
+      <label for="id_province">استان:</label>
+      {{ form.province }} <br /><br />
+
+      <label for="id_city">شهر:</label>
+      {{ form.city }} <br /><br />
+
+      <label for="id_wallet_status">وضعیت کیف پول:</label>
+      {{ form.wallet_status }} <br /><br />
+
+      <label for="id_messenger">پیام‌رسان:</label>
+      {{ form.messenger }} <br /><br />
+
+      <label for="id_operations">عملیات:</label>
+      {{ form.operations }} <br /><br />
+
+      <label for="id_status">وضعیت:</label>
+      {{ form.status }} <br /><br />
+
+      <button type="submit">ارسال</button>
+    </form>
+  </body>
+</html>
